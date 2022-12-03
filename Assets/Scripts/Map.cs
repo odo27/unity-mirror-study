@@ -4,11 +4,13 @@ public class Map
 {
     private static int MAP_SIZE = 15;
 
+    private static int playerCount;
     private static List<List<int>> map;
 
 
     public static void ClearAll()
     {
+        playerCount = 0;
         map = new List<List<int>>();
 
         for (int i = 0; i < MAP_SIZE; i++)
@@ -24,9 +26,14 @@ public class Map
         }
     }
 
-    public static void Visit(int x, int y)
+    public static int AddNewUser()
     {
-        map[x][y] = 1;
+        return ++playerCount;
+    }
+
+    public static void Visit(int x, int y, int identity)
+    {
+        map[x][y] = identity;
     }
 
     public static void Clear(int x, int y)
@@ -36,7 +43,7 @@ public class Map
 
     public static bool IsPlayer(int x, int y)
     {
-        return map[x][y] == 1;
+        return map[x][y] != 0;
     }
 
     public static bool IsInRange(int x, int y)

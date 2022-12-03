@@ -5,6 +5,8 @@ using Mirror;
 
 public class Controller : NetworkBehaviour
 {
+    int identity;
+
     public override void OnStartServer()
     {
         if (isServer && isLocalPlayer)
@@ -12,12 +14,16 @@ public class Controller : NetworkBehaviour
             Map.ClearAll();
             Debug.Log("Map Initialized!!");
         }
+    }
 
-        int x = (int)transform.position.x;
-        int y = (int)transform.position.y;
-        Map.Visit(x, y);
-        Debug.Log("Start Position Updated!");
-        Debug.Log(Map.PrintMap());
+    void Start()
+    {
+        if (isLocalPlayer)
+        {
+            int x = (int)transform.position.x;
+            int y = (int)transform.position.y;
+            SendStartPosition(x, y);
+        }
     }
 
     void Update()
@@ -25,6 +31,23 @@ public class Controller : NetworkBehaviour
         HandlePlayer();
     }
 
+    [Command]
+    void SendStartPosition(int x, int y)
+    {
+        int identity = Map.AddNewUser();
+        SetIdentity(identity);
+        Map.Visit(x, y, identity);
+        Debug.Log("Start Position Updated!");
+        Debug.Log(Map.PrintMap());
+    }
+
+    [TargetRpc]
+    void SetIdentity(int identity)
+    {
+        this.identity = identity;
+        Debug.Log("My Identity is " + this.identity);
+    }
+    
     [Client]
     void HandlePlayer()
     {
@@ -35,33 +58,33 @@ public class Controller : NetworkBehaviour
 
             if (Input.GetKeyDown(KeyCode.W))
             {
-                RequestMoving(x, y, 0, 1);
+                RequestMoving(x, y, 0, 1, identity);
             }
 
             if (Input.GetKeyDown(KeyCode.S))
             {
-                RequestMoving(x, y, 0, -1);
+                RequestMoving(x, y, 0, -1, identity);
             }
 
             if (Input.GetKeyDown(KeyCode.A))
             {
-                RequestMoving(x, y, -1, 0);
+                RequestMoving(x, y, -1, 0, identity);
             }
 
             if (Input.GetKeyDown(KeyCode.D))
             {
-                RequestMoving(x, y, 1, 0);
+                RequestMoving(x, y, 1, 0, identity);
             }
         }
     }
 
     [Command]
-    void RequestMoving(int x, int y, int dx, int dy)
+    void RequestMoving(int x, int y, int dx, int dy, int identity)
     {
         if (ValidateMoving(x, y, dx, dy))
         {
             Map.Clear(x, y);
-            Map.Visit(x + dx, y + dy);
+            Map.Visit(x + dx, y + dy, identity);
             MovePlayer(dx, dy);
             Debug.Log("Complete Player Moving!!");
             Debug.Log(Map.PrintMap());
