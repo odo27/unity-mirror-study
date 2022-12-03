@@ -6,7 +6,13 @@ public class Map
 
     private static int playerCount;
     private static List<List<int>> map;
+    private static List<Dictionary<string, int>> playerStat;
 
+    public static bool Attack(int subjectIdentity, int enemyIdentity)
+    {
+        playerStat[enemyIdentity]["health"] -= playerStat[subjectIdentity]["strikingPower"];
+        return playerStat[enemyIdentity]["health"] <= 0;
+    }
 
     public static void ClearAll()
     {
@@ -24,10 +30,20 @@ public class Map
 
             map.Add(row);
         }
+
+        playerStat = new();
+        Dictionary<string, int> emptySpace = new();
+        playerStat.Add(emptySpace);
     }
 
     public static int AddNewUser()
     {
+        Dictionary<string, int> initialStat = new()
+        {
+            {"health", 3},
+            {"strikingPower", 1}
+        };
+        playerStat.Add(initialStat);
         return ++playerCount;
     }
 

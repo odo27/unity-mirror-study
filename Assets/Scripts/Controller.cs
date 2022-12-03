@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Mirror;
 
 public class Controller : NetworkBehaviour
 {
+    public Text status;
     int identity;
 
     public override void OnStartServer()
@@ -78,37 +80,42 @@ public class Controller : NetworkBehaviour
 
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
-                RequestAttack(x, y, 0, 1);
+                RequestAttack(x, y, 0, 1, identity);
             }
 
             if (Input.GetKeyDown(KeyCode.DownArrow))
             {
-                RequestAttack(x, y, 0, -1);
+                RequestAttack(x, y, 0, -1, identity);
             }
 
             if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
-                RequestAttack(x, y, -1, 0);
+                RequestAttack(x, y, -1, 0, identity);
             }
 
             if (Input.GetKeyDown(KeyCode.RightArrow))
             {
-                RequestAttack(x, y, 1, 0);
+                RequestAttack(x, y, 1, 0, identity);
             }
         }
     }
 
     [Command]
-    void RequestAttack(int x, int y, int dx, int dy)
+    void RequestAttack(int x, int y, int dx, int dy, int subjectIdentity)
     {
         if (ValidateAttack(x, y, dx, dy))
         {
             int enemyIdentity = Map.GetPlayerIdentity(x + dx, y + dy);
 
-            // 그냥 순차적으로 인덱싱 해둬서 연결이 끊어지고 다시 연결했을 때 에러 가능성 높음!
-            NetworkConnectionToClient target = NetworkServer.connections[enemyIdentity - 1];
+            if (Map.Attack(subjectIdentity, enemyIdentity))
+            {
+                Debug.Log("Destroy! enemyIdentity: " + enemyIdentity);
+                Map.Clear(x + dx, y + dy);
 
-            Damage(target);
+                NetworkConnectionToClient target = NetworkServer.connections[enemyIdentity - 1];
+                enemyDestroy(target);
+            }
+
             Debug.Log("Complete Attack Request to " + enemyIdentity);
             return;
         }
@@ -116,9 +123,9 @@ public class Controller : NetworkBehaviour
     }
 
     [TargetRpc]
-    void Damage(NetworkConnection target)
+    void enemyDestroy(NetworkConnection enemy)
     {
-        Debug.Log("I attacked!!");
+        enemy.Disconnect();
     }
 
     [Command]
