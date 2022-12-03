@@ -75,7 +75,50 @@ public class Controller : NetworkBehaviour
             {
                 RequestMoving(x, y, 1, 0, identity);
             }
+
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                RequestAttack(x, y, 0, 1);
+            }
+
+            if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                RequestAttack(x, y, 0, -1);
+            }
+
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                RequestAttack(x, y, -1, 0);
+            }
+
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                RequestAttack(x, y, 1, 0);
+            }
         }
+    }
+
+    [Command]
+    void RequestAttack(int x, int y, int dx, int dy)
+    {
+        if (ValidateAttack(x, y, dx, dy))
+        {
+            int enemyIdentity = Map.GetPlayerIdentity(x + dx, y + dy);
+
+            // 그냥 순차적으로 인덱싱 해둬서 연결이 끊어지고 다시 연결했을 때 에러 가능성 높음!
+            NetworkConnectionToClient target = NetworkServer.connections[enemyIdentity - 1];
+
+            Damage(target);
+            Debug.Log("Complete Attack Request to " + enemyIdentity);
+            return;
+        }
+        Debug.Log("Deny Request Attack!!");
+    }
+
+    [TargetRpc]
+    void Damage(NetworkConnection target)
+    {
+        Debug.Log("I attacked!!");
     }
 
     [Command]
@@ -104,5 +147,11 @@ public class Controller : NetworkBehaviour
     bool ValidateMoving(int x, int y, int dx, int dy)
     {
         return Map.IsInRange(x + dx, y + dy) && !Map.IsPlayer(x + dx, y + dy);
+    }
+
+    [Server]
+    bool ValidateAttack(int x, int y, int dx, int dy)
+    {
+        return Map.IsInRange(x + dx, y + dy) && Map.IsPlayer(x + dx, y + dy);
     }
 }

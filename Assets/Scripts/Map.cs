@@ -46,6 +46,11 @@ public class Map
         return map[x][y] != 0;
     }
 
+    public static int GetPlayerIdentity(int x, int y)
+    {
+        return map[x][y];
+    }
+
     public static bool IsInRange(int x, int y)
     {
         return (x >= 0 && x < MAP_SIZE && y >= 0 && y < MAP_SIZE);
