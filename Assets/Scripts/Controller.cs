@@ -17,6 +17,7 @@ public class Controller : NetworkBehaviour
         int y = (int)transform.position.y;
         Map.Visit(x, y);
         Debug.Log("Start Position Updated!");
+        Debug.Log(Map.PrintMap());
     }
 
     void Update()
@@ -24,6 +25,7 @@ public class Controller : NetworkBehaviour
         HandleMovement();
     }
 
+    [Client]
     void HandleMovement()
     {
         if (isLocalPlayer)
@@ -72,15 +74,9 @@ public class Controller : NetworkBehaviour
         Debug.Log("Player moved!!");
     }
 
-    [Command]
-    void SendStartPosition(int x, int y)
-    {
-        Map.Visit(x, y);
-    }
-
     [Server]
     bool ValidateMoving(int x, int y, int dx, int dy)
     {
-        return true;
+        return Map.CanMove(x + dx, y + dy);
     }
 }

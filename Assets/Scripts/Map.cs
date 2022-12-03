@@ -29,6 +29,16 @@ public class Map
         map[x][y] = 1;
     }
 
+    public static bool CanMove(int x, int y)
+    {
+        return (IsInRange(x, y) && map[x][y] == 0);
+    }
+
+    private static bool IsInRange(int x, int y)
+    {
+        return (x >= 0 && x < MAP_SIZE && y >= 0 && y < MAP_SIZE);
+    }
+
     public static string PrintMap()
     {
         string result = "";
