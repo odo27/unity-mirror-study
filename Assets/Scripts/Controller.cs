@@ -26,6 +26,8 @@ public class Controller : NetworkBehaviour
             int y = (int)transform.position.y;
             SendStartPosition(x, y);
         }
+        status = GameObject.Find("PlayerStatus").GetComponent<Text>();
+        status.text = "Halo!";
     }
 
     void Update()
