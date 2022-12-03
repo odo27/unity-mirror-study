@@ -34,12 +34,12 @@ public class Map
         map[x][y] = 0;
     }
 
-    public static bool CanMove(int x, int y)
+    public static bool IsPlayer(int x, int y)
     {
-        return (IsInRange(x, y) && map[x][y] == 0);
+        return map[x][y] == 1;
     }
 
-    private static bool IsInRange(int x, int y)
+    public static bool IsInRange(int x, int y)
     {
         return (x >= 0 && x < MAP_SIZE && y >= 0 && y < MAP_SIZE);
     }

@@ -22,11 +22,11 @@ public class Controller : NetworkBehaviour
 
     void Update()
     {
-        HandleMovement();
+        HandlePlayer();
     }
 
     [Client]
-    void HandleMovement()
+    void HandlePlayer()
     {
         if (isLocalPlayer)
         {
@@ -80,6 +80,6 @@ public class Controller : NetworkBehaviour
     [Server]
     bool ValidateMoving(int x, int y, int dx, int dy)
     {
-        return Map.CanMove(x + dx, y + dy);
+        return Map.IsInRange(x + dx, y + dy) && !Map.IsPlayer(x + dx, y + dy);
     }
 }
