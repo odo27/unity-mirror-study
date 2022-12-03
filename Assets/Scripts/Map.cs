@@ -7,7 +7,7 @@ public class Map
     private static List<List<int>> map;
 
 
-    public static void Clear()
+    public static void ClearAll()
     {
         map = new List<List<int>>();
 
@@ -27,6 +27,11 @@ public class Map
     public static void Visit(int x, int y)
     {
         map[x][y] = 1;
+    }
+
+    public static void Clear(int x, int y)
+    {
+        map[x][y] = 0;
     }
 
     public static bool CanMove(int x, int y)

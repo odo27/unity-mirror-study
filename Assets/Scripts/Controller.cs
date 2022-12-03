@@ -9,7 +9,7 @@ public class Controller : NetworkBehaviour
     {
         if (isServer && isLocalPlayer)
         {
-            Map.Clear();
+            Map.ClearAll();
             Debug.Log("Map Initialized!!");
         }
 
@@ -60,8 +60,11 @@ public class Controller : NetworkBehaviour
     {
         if (ValidateMoving(x, y, dx, dy))
         {
+            Map.Clear(x, y);
+            Map.Visit(x + dx, y + dy);
             MovePlayer(dx, dy);
             Debug.Log("Complete Player Moving!!");
+            Debug.Log(Map.PrintMap());
             return;
         }
         Debug.Log("Deny Request Moving!!");
