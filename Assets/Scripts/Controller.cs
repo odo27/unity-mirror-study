@@ -129,6 +129,10 @@ public class Controller : NetworkBehaviour
         {
             int enemyIdentity = Map.GetPlayerIdentity(x + dx, y + dy);
 
+            gameObject.GetComponent<Database>().RequestSave(Map.gameid, Map.mainturn, Map.subturn, identity, enemyIdentity, DirectionToStringInAttack(dx, dy), Map.GetPlayerStrikingPower(subjectIdentity), x, y);
+            Map.UpdateTurn();
+            Debug.Log("Save Attack Log in Database");
+
             if (Map.Attack(subjectIdentity, enemyIdentity))
             {
                 Debug.Log("Destroy! enemyIdentity: " + enemyIdentity);
@@ -165,6 +169,23 @@ public class Controller : NetworkBehaviour
             return "ml";
         }
         return "mr";
+    }
+
+    string DirectionToStringInAttack(int dx, int dy)
+    {
+        if (dx == 0 && dy == 1)
+        {
+            return "au";
+        }
+        if (dx == 0 && dy == -1)
+        {
+            return "ad";
+        }
+        if (dx == -1 && dy == 0)
+        {
+            return "al";
+        }
+        return "ar";
     }
 
     [Command]

@@ -11,6 +11,11 @@ public class Map
     private static List<List<int>> map;
     private static List<Dictionary<string, int>> playerStat;
 
+    public static int GetPlayerStrikingPower(int identity)
+    {
+        return playerStat[identity]["strikingPower"];
+    }
+
     public static void UpdateTurn()
     {
         subturn++;
