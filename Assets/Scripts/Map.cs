@@ -14,7 +14,7 @@ public class Map
         for (int i = 1; i < playerStat.Count; i++)
         {
             result += "player" + i + "      ";
-            result += playerStat[i]["health"] + "           ";
+            result += playerStat[i]["health"] + "/" + playerStat[i]["maxHealth"] + "           ";
             result += playerStat[i]["strikingPower"] + "\n";
         }
         return result;
@@ -25,7 +25,8 @@ public class Map
         playerStat[enemyIdentity]["health"] -= playerStat[subjectIdentity]["strikingPower"];
         if (playerStat[enemyIdentity]["health"] <= 0)
         {
-            playerStat[subjectIdentity]["health"] += 3;
+            playerStat[subjectIdentity]["maxHealth"] += 20;
+            playerStat[subjectIdentity]["health"] += 20;
             playerStat[subjectIdentity]["strikingPower"] += 1;
             return true;
         }
@@ -58,8 +59,9 @@ public class Map
     {
         Dictionary<string, int> initialStat = new()
         {
-            {"health", 3},
-            {"strikingPower", 1}
+            {"maxHealth", 100 },
+            {"health", 100},
+            {"strikingPower", 5}
         };
         playerStat.Add(initialStat);
         return ++playerCount;
