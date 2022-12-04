@@ -51,7 +51,7 @@ public class Controller : NetworkBehaviour
         this.identity = identity;
         Debug.Log("My Identity is " + this.identity);
     }
-    
+
     [Client]
     void HandlePlayer()
     {
@@ -83,23 +83,45 @@ public class Controller : NetworkBehaviour
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
                 RequestAttack(x, y, 0, 1, identity);
+                status.text = "Halo2";
             }
 
             if (Input.GetKeyDown(KeyCode.DownArrow))
             {
                 RequestAttack(x, y, 0, -1, identity);
+                status.text = "Halo3";
             }
 
             if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
                 RequestAttack(x, y, -1, 0, identity);
+                status.text = "Halo4";
             }
 
             if (Input.GetKeyDown(KeyCode.RightArrow))
             {
                 RequestAttack(x, y, 1, 0, identity);
+                status.text = "Halo5";
+            }
+
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                RequestSendHolaHola();
             }
         }
+    }
+
+    [Command]
+    void RequestSendHolaHola()
+    {
+        string playerStat = Map.PrintPlayerStat();
+        sendHolaHola(playerStat);
+    }
+
+    [ClientRpc]
+    void sendHolaHola(string message)
+    {
+        status.text = message;
     }
 
     [Command]

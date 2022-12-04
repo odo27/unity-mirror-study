@@ -8,6 +8,18 @@ public class Map
     private static List<List<int>> map;
     private static List<Dictionary<string, int>> playerStat;
 
+    public static string PrintPlayerStat()
+    {
+        string result = "";
+        for (int i = 1; i < playerStat.Count; i++)
+        {
+            result += "player" + i + "      ";
+            result += playerStat[i]["health"] + "           ";
+            result += playerStat[i]["strikingPower"] + "\n";
+        }
+        return result;
+    }
+
     public static bool Attack(int subjectIdentity, int enemyIdentity)
     {
         playerStat[enemyIdentity]["health"] -= playerStat[subjectIdentity]["strikingPower"];
