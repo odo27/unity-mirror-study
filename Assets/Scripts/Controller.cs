@@ -27,7 +27,7 @@ public class Controller : NetworkBehaviour
             SendStartPosition(x, y);
         }
         status = GameObject.Find("PlayerStatus").GetComponent<Text>();
-        status.text = "Halo!";
+        RequestPlayerStatus();
     }
 
     void Update()
@@ -83,43 +83,38 @@ public class Controller : NetworkBehaviour
             if (Input.GetKeyDown(KeyCode.UpArrow))
             {
                 RequestAttack(x, y, 0, 1, identity);
-                status.text = "Halo2";
+                RequestPlayerStatus();
             }
 
             if (Input.GetKeyDown(KeyCode.DownArrow))
             {
                 RequestAttack(x, y, 0, -1, identity);
-                status.text = "Halo3";
+                RequestPlayerStatus();
             }
 
             if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
                 RequestAttack(x, y, -1, 0, identity);
-                status.text = "Halo4";
+                RequestPlayerStatus();
             }
 
             if (Input.GetKeyDown(KeyCode.RightArrow))
             {
                 RequestAttack(x, y, 1, 0, identity);
-                status.text = "Halo5";
-            }
-
-            if (Input.GetKeyDown(KeyCode.X))
-            {
-                RequestSendHolaHola();
+                RequestPlayerStatus();
             }
         }
     }
 
     [Command]
-    void RequestSendHolaHola()
+    void RequestPlayerStatus()
     {
         string playerStat = Map.PrintPlayerStat();
-        sendHolaHola(playerStat);
+        sendPlayerStatus(playerStat);
     }
 
     [ClientRpc]
-    void sendHolaHola(string message)
+    void sendPlayerStatus(string message)
     {
         status.text = message;
     }

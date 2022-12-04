@@ -23,7 +23,13 @@ public class Map
     public static bool Attack(int subjectIdentity, int enemyIdentity)
     {
         playerStat[enemyIdentity]["health"] -= playerStat[subjectIdentity]["strikingPower"];
-        return playerStat[enemyIdentity]["health"] <= 0;
+        if (playerStat[enemyIdentity]["health"] <= 0)
+        {
+            playerStat[subjectIdentity]["health"] += 3;
+            playerStat[subjectIdentity]["strikingPower"] += 1;
+            return true;
+        }
+        return false;
     }
 
     public static void ClearAll()
