@@ -4,9 +4,22 @@ public class Map
 {
     private static int MAP_SIZE = 15;
 
+    public static int gameid;
+    public static int mainturn;
+    public static int subturn;
     private static int playerCount;
     private static List<List<int>> map;
     private static List<Dictionary<string, int>> playerStat;
+
+    public static void UpdateTurn()
+    {
+        subturn++;
+        if (subturn > playerCount)
+        {
+            mainturn++;
+            subturn = 1;
+        }
+    }
 
     public static string PrintPlayerStat()
     {
@@ -35,6 +48,8 @@ public class Map
 
     public static void ClearAll()
     {
+        mainturn = 1;
+        subturn = 1;
         playerCount = 0;
         map = new List<List<int>>();
 

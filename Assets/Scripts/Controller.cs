@@ -14,7 +14,8 @@ public class Controller : NetworkBehaviour
         if (isServer && isLocalPlayer)
         {
             Map.ClearAll();
-            gameObject.GetComponent<Database>().RequestSave(2, 1, 2, 2, 3, "md", 0, 13, 11);
+            // set gameid in map
+            gameObject.GetComponent<Database>().RequestMaxid();
             Debug.Log("Map Initialized!!");
         }
     }
@@ -149,11 +150,32 @@ public class Controller : NetworkBehaviour
         enemy.Disconnect();
     }
 
+    string DirectionToStringInMove(int dx, int dy)
+    {
+        if (dx == 0 && dy == 1)
+        {
+            return "mu";
+        }
+        if (dx == 0 && dy == -1)
+        {
+            return "md";
+        }
+        if (dx == -1 && dy == 0)
+        {
+            return "ml";
+        }
+        return "mr";
+    }
+
     [Command]
     void RequestMoving(int x, int y, int dx, int dy, int identity)
     {
         if (ValidateMoving(x, y, dx, dy))
         {
+            gameObject.GetComponent<Database>().RequestSave(Map.gameid, Map.mainturn, Map.subturn, identity, 0, DirectionToStringInMove(dx, dy), 0, x, y);
+            Map.UpdateTurn();
+            Debug.Log("Save Move Log in Database");
+
             Map.Clear(x, y);
             Map.Visit(x + dx, y + dy, identity);
             MovePlayer(dx, dy);

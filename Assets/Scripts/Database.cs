@@ -7,6 +7,24 @@ public class Database : MonoBehaviour
 {
     private string url = "https://82mi0xvyvd.execute-api.ap-northeast-2.amazonaws.com/default/game-log-controller";
 
+    public void RequestMaxid()
+    {
+        StartCoroutine(Maxid());
+    }
+
+    IEnumerator Maxid()
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("command", "maxid");
+
+        UnityWebRequest www = UnityWebRequest.Post(url, form);
+
+        yield return www.SendWebRequest();
+        
+        Map.gameid = int.Parse(www.downloadHandler.text) + 1;
+        www.Dispose();
+    }
+
     public void RequestSave(int gameid, int mainturn, int subturn, int subjectIdentity, int objectIdentity, string action, int value, int positionx, int positiony)
     {
         StartCoroutine(SaveLog(gameid, mainturn, subturn, subjectIdentity, objectIdentity, action, value, positionx, positiony));
