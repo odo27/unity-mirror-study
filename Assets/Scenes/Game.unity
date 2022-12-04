@@ -1496,8 +1496,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 363, y: -6}
-  m_SizeDelta: {x: 363.89, y: 383.99}
+  m_AnchoredPosition: {x: 385.5, y: 4.2}
+  m_SizeDelta: {x: 316.23, y: 479.28}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1214631423
 MonoBehaviour:
@@ -1534,7 +1534,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: 'GameStatus
 
-    Name       HP       ATK'
+    Name            HP            ATK'
 --- !u!222 &1214631424
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2247,8 +2247,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 363, y: -6}
-  m_SizeDelta: {x: 363.89, y: 280}
+  m_AnchoredPosition: {x: 385.5, y: -29.144981}
+  m_SizeDelta: {x: 316.23, y: 412.59}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1769148799
 MonoBehaviour:
