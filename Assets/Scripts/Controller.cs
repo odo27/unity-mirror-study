@@ -25,6 +25,7 @@ public class Controller : NetworkBehaviour
             int x = (int)transform.position.x;
             int y = (int)transform.position.y;
             SendStartPosition(x, y);
+            gameObject.GetComponent<SpriteRenderer>().color = Color.green;
         }
         status = GameObject.Find("PlayerStatus").GetComponent<Text>();
         RequestPlayerStatus();
