@@ -14,6 +14,7 @@ public class Controller : NetworkBehaviour
         if (isServer && isLocalPlayer)
         {
             Map.ClearAll();
+            gameObject.GetComponent<Database>().RequestSave(2, 1, 2, 2, 3, "md", 0, 13, 11);
             Debug.Log("Map Initialized!!");
         }
     }
