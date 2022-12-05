@@ -31,8 +31,8 @@ public class Map
         string result = "";
         for (int i = 1; i < playerStat.Count; i++)
         {
-            result += "player" + i + "      ";
-            result += playerStat[i]["health"] + "/" + playerStat[i]["maxHealth"] + "           ";
+            result += "player" + i + "  ";
+            result += playerStat[i]["health"] + "/" + playerStat[i]["maxHealth"] + "       ";
             result += playerStat[i]["strikingPower"] + "\n";
         }
         return result;
